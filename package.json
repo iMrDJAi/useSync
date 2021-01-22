@@ -1,0 +1,27 @@
+{
+  "name": "usesync",
+  "version": "1.0.0-alpha",
+  "description": "A custom React hook to synchronize and share public state across different components on your React project",
+  "main": "src/useSync.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iMrDJAi/useSync.git"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "state",
+    "react-hook",
+    "react-state",
+	  "usesync"
+  ],
+  "author": "iMrDJAi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iMrDJAi/useSync/issues"
+  },
+  "homepage": "https://github.com/iMrDJAi/useSync#readme",
+  "peerDependencies": {
+    "react": ">= 16.8.0"
+  }
+}
