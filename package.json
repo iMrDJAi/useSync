@@ -1,6 +1,6 @@
 {
   "name": "usesync",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "description": "A custom React hook to synchronize and share public state across different components on your React project",
   "main": "src/useSync.js",
   "repository": {
