@@ -18,7 +18,7 @@ var useSync = id => {
 }
 
 var sync = id => {
-    if (syncs[id]) for (let render of syncs[id]) render()
+    if (syncs[id]) for (let render of syncs[id]) setTimeout(() => render(), 0)
 }
 
 var storage = {}
