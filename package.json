@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "description": "A subscription based state management solution for React!",
   "main": "src/useSync.js",
-  "types": "useSync.d.ts",
   "type": "module",
   "repository": {
     "type": "git",
