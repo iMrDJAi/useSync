@@ -1,8 +1,8 @@
 ***
-# **useSync** - Custom React Hook
+# **useSync**
 [![npm](https://img.shields.io/npm/v/usesync?color=red)](https://www.npmjs.com/package/usesync)
 
-A custom React hook to synchronize and share public state across different components on your React project.
+A subscription based state management solution for React!
 ***
 
 ## Table of Contents
@@ -13,24 +13,24 @@ A custom React hook to synchronize and share public state across different compo
 
 ## Installation:
 
-Install the hook from **npm**:
+Install the package from **npm**:
 ```bash
 $ npm install usesync --save
 ```
 
 Then simply require it:
 ```js
-const { useSync, sync, storage } = require("usesync")
+const { useSync, sync, storage } = require("usesync") // CJS
 ```
 or
 ```js
-import useSync, { sync, storage } from "usesync"
+import useSync, { sync, storage } from "usesync" // ESM
 ```
 
 ## Usage:
-### useSync(id: string)
+### useSync(id: string, initialValue?: any): any
 
-This is the hook that you will use across your React components, the function registers them under a specific ID you will give:
+This is the hook that you will use across your React components, it allows them to subscribe to a specific sync with the ID you give:
 ```js
 const Component = () => {
     useSync('hello')
@@ -42,27 +42,7 @@ const Component = () => {
 }
 ```
 
-To synchronize multiple components simply call the hook inside them and give the same ID:
-```js
-const ComponentA = () => {
-    useSync('hello')
-    return (
-        <div>
-            Hello World! (A)
-        </div>
-    )
-}
-const ComponentB = () => {
-    useSync('hello')
-    return (
-        <div>
-            Hello World! (B)
-        </div>
-    )
-}
-```
-
-You can use the hook on a component for multiple times with multiple IDs:
+Subscribing to muiltiple syncs is possible, just call the hook multiple times with different IDs:
 ```js
 const Component = () => {
     useSync('id num 1')
@@ -75,15 +55,47 @@ const Component = () => {
 }
 ```
 
-**Note:** it is possible to dynamically update a hook ID on a component with no issue.
+Updating sync IDs at runtime is allowed:
+```js
+const GreetUser = (id) => {
+    const user = getUser(id)
+    useSync(`Users ${id}`)
+    return (
+        <div>
+            Hello {user.firstName}!
+        </div>
+    )
+}
+```
 
-### sync(id: string)
+To synchronize state in multiple components simply call the hook inside all of them and give the same ID:
+```js
+const ComponentA = () => {
+    const name = useSync('hello', 'World')
+    return (
+        <div>
+            Hello {name}! (A)
+        </div>
+    )
+}
+const ComponentB = () => {
+    const name = useSync('hello', 'World')
+    return (
+        <div>
+            Hello {name}! (B)
+        </div>
+    )
+}
+```
 
-The hook alone does nothing, to synchronize components registered under a specific ID you need to call this function, it causes to re-render all of them, here is an example:
+### sync(id: string, newValue?: any): void
+
+The hook alone does nothing, to dispatch a sync you need to call this function, this will cause all the subscribed components to re-render. Here is an example:
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
 import useSync, { sync } from "usesync"
+
 
 const ComponentA = () => {
     useSync('Components')
@@ -133,13 +145,66 @@ ReactDOM.render(<App />, document.getElementById('app'))
 ```
 Try it on [CodePen](https://codepen.io/imrdjai/pen/zYKQzqw)!
 
-### storage: object
+**New:** You may pass a sync value to this function, and access it from the subscribed components:
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import useSync, { sync } from "usesync"
 
-This is just an extra object publicly available across your app can be used to store data, you can put states for your componenets there, here is an example:
+
+const initialValue = Math.random()
+
+const ComponentA = () => {
+    const randomNumber = useSync('Components', initialValue)
+    return (
+        <div>
+            Random Number (A): {randomNumber}
+        </div>
+    )
+}
+const ComponentB = () => {
+    const randomNumber = useSync('Components', initialValue)
+    return (
+        <div>
+            Random Number (B): {randomNumber}
+        </div>
+    )
+}
+const ComponentC = () => {
+    const randomNumber = useSync('Components', initialValue)
+    return (
+        <div>
+            Random Number (C): {randomNumber}
+        </div>
+    )
+}
+const App = () => {
+    const handleClick = () => {
+        sync('Components', Math.random())
+    }
+    return (
+        <div>
+            <ComponentA />
+            <ComponentB />
+            <ComponentC />
+            <ComponentC />
+            <button onClick={handleClick}>re-render all</button>
+        </div>
+    )
+}
+
+ReactDOM.render(<App />, document.getElementById('app'))
+```
+Try it on [CodePen](https://codepen.io/imrdjai/pen/WNMwvJx)!
+
+### storage: Object
+
+This is an optional object that is globaly available across your app, it can be used to store states for your componenets. Here is an example:
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
 import useSync, { sync, storage } from "usesync"
+
 
 storage.randomNumber = Math.random()
 

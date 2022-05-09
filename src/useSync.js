@@ -1,28 +1,40 @@
-import { useReducer, useEffect } from 'react'
+import { useReducer, useEffect, useRef } from 'react'
 
-var syncs = {}
 
-var useSync = id => {
-    var [, render] = useReducer(p => !p, false)
+const syncs = {}
 
-    useEffect(() => {
-        if (!syncs[id]) syncs[id] = []
-        syncs[id].push(render)
+const useSync = (id, initialValue) => {
+  const [, dispatch] = useReducer(state => !state, false)
+  const value = useRef(initialValue)
+  const render = (newValue) => {
+    value.current = newValue
+    dispatch()
+  }
 
-        return () => {
-            var index = syncs[id].findIndex(e => e === render)
-            syncs[id].splice(index, 1)
-            if (syncs[id].length === 0) delete syncs[id]
-        }
-    }, [id])
+  useEffect(() => {
+    if (!syncs[id]) syncs[id] = []
+    syncs[id].push(render)
+
+    return () => {
+      const index = syncs[id].findIndex(r => r === render)
+      syncs[id].splice(index, 1)
+      if (syncs[id].length === 0) delete syncs[id]
+    }
+  }, [id])
+
+  return value.current
 }
 
-var sync = id => {
-    if (syncs[id]) for (let render of syncs[id]) setTimeout(() => render(), 0)
+const sync = (...args) => {
+  const [id, newValue] = args
+
+  if (!syncs[id]) return
+  for (const render of syncs[id]) {
+    setTimeout(() => args.length < 2 ? render() : render(newValue), 0)
+  }
 }
 
-var storage = {}
+const storage = {}
 
 export { useSync, sync, storage }
-
 export default useSync
