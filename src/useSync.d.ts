@@ -10,7 +10,7 @@ declare function useSync (id: string, initialValue?: any): any
  * A function can be used everywhere to dispatch a sync with the given ID,
  * and to pass a new sync value to the subscribed components
  * @param id The sync ID to synchronize
- * @param initialValue A new sync value to pass
+ * @param newValue A new sync value to pass
  */
 declare function sync (id: string, newValue?: any): void
 /**
