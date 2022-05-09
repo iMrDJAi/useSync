@@ -57,11 +57,12 @@ const Component = () => {
 
 Updating sync IDs at runtime is allowed:
 ```js
-const GreetUser = (username) => {
-    useSync(`Users ${username}`)
+const GreetUser = (id) => {
+    const user = getUser(id)
+    useSync(`Users ${id}`)
     return (
         <div>
-            Hello {username}!
+            Hello {user.firstName}!
         </div>
     )
 }
