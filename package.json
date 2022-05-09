@@ -1,8 +1,10 @@
 {
   "name": "usesync",
-  "version": "1.1.0",
-  "description": "A custom React hook to synchronize and share public state across different components on your React project",
+  "version": "2.0.0",
+  "description": "A subscription based state management solution for React!",
   "main": "src/useSync.js",
+  "types": "useSync.d.ts",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iMrDJAi/useSync.git"
