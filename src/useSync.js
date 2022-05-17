@@ -6,8 +6,9 @@ const syncs = {}
 const useSync = (id, initialValue) => {
   const [, dispatch] = useReducer(state => !state, false)
   const value = useRef(initialValue)
-  const render = (newValue) => {
-    value.current = newValue
+  const render = (...args) => {
+    const [newValue] = args
+    if (args.length) value.current = newValue
     dispatch()
   }
 
