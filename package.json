@@ -1,6 +1,6 @@
 {
   "name": "usesync",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A subscription based state management solution for React!",
   "main": "src/useSync.js",
   "type": "module",
