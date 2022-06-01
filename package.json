@@ -1,9 +1,20 @@
 {
   "name": "usesync",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A subscription based state management solution for React!",
-  "main": "src/useSync.js",
-  "type": "module",
+  "main": "./dist/useSync.js",
+  "module": "./dist/useSync.mjs",
+  "types": "./src/useSync.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/useSync.js",
+      "import": "./dist/useSync.mjs",
+      "types": "./src/useSync.d.ts"      
+    }
+  },
+  "scripts": {
+    "build": "tsup src/useSync.js --format cjs,esm --minify"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iMrDJAi/useSync.git"
@@ -14,7 +25,7 @@
     "state",
     "react-hook",
     "react-state",
-	  "usesync"
+    "usesync"
   ],
   "author": "iMrDJAi",
   "license": "MIT",
@@ -24,5 +35,8 @@
   "homepage": "https://github.com/iMrDJAi/useSync#readme",
   "peerDependencies": {
     "react": ">= 16.8.0"
+  },
+  "devDependencies": {
+    "tsup": "^6.0.1"
   }
 }

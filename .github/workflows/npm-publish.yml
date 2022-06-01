@@ -15,6 +15,10 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
+      - name: Install deps
+        run: npm i
+      - name: Build...
+        run: npm run build
       - name: Publish!
         run: npm publish
         env:
